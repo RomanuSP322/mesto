@@ -1,3 +1,4 @@
+console.log('halo')
 const buttonOpenPopup = document.querySelector(".profile__edit-button");
 const buttonClosePopup = document.querySelector(".popup__close-button");
 const popup = document.querySelector(".popup");
