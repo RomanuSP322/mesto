@@ -12,10 +12,9 @@
 
 
 @media screen and (max-width: 768px) {
-  .profile__tittle {
-    font-weight: 500;
-    font-size: 27px;
-    line-height: 56px;
+  .profile__tittle {    
+    font-size: 27px;    
     justify-self: center;
+    max-width: calc(280px - 41px);
   }
 }

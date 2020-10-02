@@ -9,14 +9,13 @@ let nameInput = formElement.querySelector(".popup__form-item_type_name");
 let jobInput = formElement.querySelector(".popup__form-item_type_about");
 
 function popupToggle() {
-  if (profileTittle.textContent !== nameInput.value || profileSubtittle.textContent !== jobInput.value) {
+  popup.classList.toggle("popup_is-opened")
+  if (popup.classList.contains('popup_is-opened')) {
     nameInput.value = profileTittle.textContent;
     jobInput.value = profileSubtittle.textContent;
   }
-  popup.classList.toggle("popup_is-opened")
+  
 }
-buttonOpenPopup.addEventListener("click", popupToggle);
-buttonClosePopup.addEventListener("click", popupToggle);
 
 function onClickPopupBackground(event) {
   if (event.target !== event.currentTarget) {
@@ -24,8 +23,6 @@ function onClickPopupBackground(event) {
   }
   popupToggle()
 }
-
-popup.addEventListener('click', onClickPopupBackground);
 
 function formSubmitHandler(evt) {
   evt.preventDefault();
@@ -36,4 +33,7 @@ function formSubmitHandler(evt) {
   popupToggle()
 }
 
+buttonOpenPopup.addEventListener("click", popupToggle);
+buttonClosePopup.addEventListener("click", popupToggle);
+popup.addEventListener('click', onClickPopupBackground);
 formElement.addEventListener('submit', formSubmitHandler); 
