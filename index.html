@@ -80,10 +80,10 @@
       <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
         <h2 class="popup__tittle">Редактировать профиль</h2>
-        <form action="URL" method="get" class="popup__form popup__form-container">
-          <input type="text" class="popup__form-item popup__form-item_type_name" name="name" placeholder="Савелий Ильич"
+        <form name="popup-form" action="URL" method="get" class="popup__form popup__form-container">
+          <input type="text" class="popup__form-item popup__form-item_type_name" name="name" placeholder="Имя"
             required />
-          <input type="text" class="popup__form-item popup__form-item_type_about" name="text" placeholder="Инженер"
+          <input type="text" class="popup__form-item popup__form-item_type_about popup__form-item_position_bottom" name="text" placeholder="О себе"
             required />
           <button type="submit" class="popup__save-button">Сохранить</button>
         </form>
