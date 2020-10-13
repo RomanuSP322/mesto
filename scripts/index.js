@@ -2,7 +2,6 @@ const buttonOpenAddPopup = document.querySelector(".profile__add-button");
 const buttonOpenEditPopup = document.querySelector(".profile__edit-button");
 const buttonsClosePopup = document.querySelectorAll(".popup__close-button");
 
-const popup = document.querySelector(".popup");
 const editPopup = document.querySelector(".edit-popup");
 const addPopup = document.querySelector(".add-popup");
 const imagePopup = document.querySelector(".image-popup");
