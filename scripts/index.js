@@ -47,46 +47,35 @@ const initialCards = [
 ];
 
 const renderCards = () => {
-  const items = initialCards.map(element => getItems(element));
+  const items = initialCards.map(element => getItem(element));
   cards.prepend(...items);
 };
 
-const getItems = (data) => {
+const getItem = (data) => {
   const card = template.content.cloneNode(true);
   card.querySelector('.place__title').innerText = data.name;
   card.querySelector('.place__image').src = data.link;
-  
-  const openImagePopup = () => {
-    imagePopup.querySelector('.popup__image').src = data.link;
-    imagePopup.querySelector('.popup__image-title').innerText = data.name;
-    imagePopup.classList.add("popup_is-opened");
-  };
 
   const buttonDelete = card.querySelector(".place__delete-button");
 
   buttonDelete.addEventListener('click', (evt) => evt.target.closest('.place').remove());
   card.querySelector('.place__like-button').addEventListener('click', (evt) => evt.target.classList.toggle('place__like-button_active'));
-  card.querySelector('.place__image').addEventListener('click', openImagePopup);
+  card.querySelector('.place__image').addEventListener('click', () => {
+    imagePopup.querySelector('.popup__image').src = data.link;
+    imagePopup.querySelector('.popup__image-title').innerText = data.name;
+    openPopup(imagePopup);
+  });
 
   return card;
 };
 
 renderCards();
 
-const openEditPopup = () => {
-  editPopup.classList.add("popup_is-opened");
-  nameInput.value = profileTittle.textContent;
-  jobInput.value = profileSubtittle.textContent;
+const openPopup = (closedPopup) => {
+  closedPopup.classList.add("popup_is-opened");
 };
 
-const openAddPopup = () => {
-  addPopup.classList.add("popup_is-opened");
-  titleInput.value = '';
-  urlInput.value = '';
-};
-
-const closePopup = (evt) => {
-  const openedPopup = evt.target.closest(".popup");
+const closePopup = (openedPopup) => {
   openedPopup.classList.remove("popup_is-opened");
 };
 
@@ -95,24 +84,38 @@ const editFormSubmit = (evt) => {
   profileTittle.textContent = nameInput.value;
   profileSubtittle.textContent = jobInput.value;
 
-  closePopup(evt);
+  closePopup(editPopup);
 };
 
 const addFormSubmit = (evt) => {
   evt.preventDefault();
-  const item = getItems({
+  const item = getItem({
     name: titleInput.value,
     link: urlInput.value
   });
 
   cards.prepend(item);
 
-  closePopup(evt);
-}
+  closePopup(addPopup);
+};
 
-buttonsClosePopup.forEach((buttonClose) => buttonClose.addEventListener(`click`, closePopup));
-buttonOpenEditPopup.addEventListener("click", openEditPopup);
-buttonOpenAddPopup.addEventListener("click", openAddPopup);
+buttonsClosePopup.forEach((buttonClose) =>
+  buttonClose.addEventListener(`click`, (evt) => {
+    const openedPopup = evt.target.closest(".popup");
+    closePopup(openedPopup)
+  }));
+
+buttonOpenEditPopup.addEventListener("click", () => {
+  nameInput.value = profileTittle.textContent;
+  jobInput.value = profileSubtittle.textContent;
+  openPopup(editPopup);
+});
+
+buttonOpenAddPopup.addEventListener("click", () => {
+  titleInput.value = '';
+  urlInput.value = '';
+  openPopup(addPopup);
+});
 
 editForm.addEventListener('submit', editFormSubmit);
 addForm.addEventListener('submit', addFormSubmit);
