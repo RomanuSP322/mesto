@@ -2,6 +2,7 @@ const buttonOpenAddPopup = document.querySelector(".profile__add-button");
 const buttonOpenEditPopup = document.querySelector(".profile__edit-button");
 const buttonsClosePopup = document.querySelectorAll(".popup__close-button");
 
+const Popups = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".edit-popup");
 const addPopup = document.querySelector(".add-popup");
 const imagePopup = document.querySelector(".image-popup");
@@ -105,6 +106,7 @@ buttonsClosePopup.forEach((buttonClose) =>
     closePopup(openedPopup)
   }));
 
+
 buttonOpenEditPopup.addEventListener("click", () => {
   nameInput.value = profileTittle.textContent;
   jobInput.value = profileSubtittle.textContent;
@@ -119,3 +121,22 @@ buttonOpenAddPopup.addEventListener("click", () => {
 
 editForm.addEventListener('submit', editFormSubmit);
 addForm.addEventListener('submit', addFormSubmit);
+
+
+
+const onClickPopupBackground = (evt) => {
+  const openedPopup = evt.target.closest(".popup");
+  if (evt.target === evt.currentTarget) {  
+  closePopup(openedPopup);
+}};
+
+const escHandler = (evt) => {
+  const openedPopup = document.querySelector('.popup_is-opened'); 
+  if (evt.key === 'Escape' && openedPopup !== null) {     
+    closePopup(openedPopup);
+  }}
+;
+Popups.forEach((popup) => {popup.addEventListener('click', onClickPopupBackground)})
+document.addEventListener('keydown', escHandler)
+
+
