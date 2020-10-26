@@ -76,16 +76,24 @@ const getItem = (data) => {
 
 renderCards();
 
-
+const resetForm = (popup) => {
+  const form = popup.querySelector(".popup__form");
+  const popupInputs = Array.from(popup.querySelectorAll(".popup__form-item"));
+  const inputErrorClass = 'popup__form-item_state_invalid'; 
+  popupInputs.forEach((input) => {
+    hideError(form, input, {inputErrorClass});
+  })
+}
 
 const openPopup = (closedPopup) => {
   closedPopup.classList.add("popup_is-opened");
-  document.addEventListener('keydown', escHandler);  
+  document.addEventListener('keydown', escHandler);
+  resetForm(closedPopup);
 };
 
 const closePopup = (openedPopup) => {
   openedPopup.classList.remove("popup_is-opened");
-  document.removeEventListener('keydown', escHandler);   
+  document.removeEventListener('keydown', escHandler); 
 };
 
 const escHandler = (evt) => {
@@ -97,7 +105,7 @@ const escHandler = (evt) => {
 const editFormSubmit = (evt) => {
   evt.preventDefault();
   profileTittle.textContent = nameInput.value;
-  profileSubtittle.textContent = jobInput.value;  
+  profileSubtittle.textContent = jobInput.value;
   closePopup(editPopup);
 };
 
@@ -109,7 +117,6 @@ const addFormSubmit = (evt) => {
   });
 
   cards.prepend(item);
-  
   closePopup(addPopup);
   
 };
