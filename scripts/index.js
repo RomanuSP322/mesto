@@ -48,9 +48,6 @@ const initialCards = [
   }
 ];
 
-nameInput.value = 'Имя';
-jobInput.value = 'О себе';
-
 const renderCards = () => {
   const items = initialCards.map(element => getItem(element));
   cards.prepend(...items);
@@ -58,15 +55,19 @@ const renderCards = () => {
 
 const getItem = (data) => {
   const card = template.content.cloneNode(true);
+  const cardImage = card.querySelector('.place__image');
   card.querySelector('.place__title').innerText = data.name;
-  card.querySelector('.place__image').src = data.link;
+  cardImage.src = data.link;
+  cardImage.alt = data.name;
 
   const buttonDelete = card.querySelector(".place__delete-button");
 
   buttonDelete.addEventListener('click', (evt) => evt.target.closest('.place').remove());
   card.querySelector('.place__like-button').addEventListener('click', (evt) => evt.target.classList.toggle('place__like-button_active'));
-  card.querySelector('.place__image').addEventListener('click', () => {
-    imagePopup.querySelector('.popup__image').src = data.link;
+  cardImage.addEventListener('click', () => {
+    const imagePopupPicture = imagePopup.querySelector('.popup__image');
+    imagePopupPicture.src = data.link;
+    imagePopupPicture.alt = data.name;
     imagePopup.querySelector('.popup__image-title').innerText = data.name;
     openPopup(imagePopup);
   });
@@ -76,19 +77,9 @@ const getItem = (data) => {
 
 renderCards();
 
-const resetForm = (popup) => {
-  const form = popup.querySelector(".popup__form");
-  const popupInputs = Array.from(popup.querySelectorAll(".popup__form-item"));
-  const inputErrorClass = 'popup__form-item_state_invalid'; 
-  popupInputs.forEach((input) => {
-    hideError(form, input, {inputErrorClass});
-  })
-}
-
 const openPopup = (closedPopup) => {
   closedPopup.classList.add("popup_is-opened");
-  document.addEventListener('keydown', escHandler);
-  resetForm(closedPopup);
+  document.addEventListener('keydown', escHandler);  
 };
 
 const closePopup = (openedPopup) => {
@@ -124,7 +115,7 @@ const addFormSubmit = (evt) => {
 const onClickPopupBackground = (evt) => {
   const openedPopup = evt.target.closest(".popup");
   if (evt.target === evt.currentTarget) {  
-  closePopup(openedPopup);
+    closePopup(openedPopup);
 }};
 
 buttonsClosePopup.forEach((buttonClose) =>
