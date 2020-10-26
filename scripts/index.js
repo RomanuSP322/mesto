@@ -2,6 +2,7 @@ const buttonOpenAddPopup = document.querySelector(".profile__add-button");
 const buttonOpenEditPopup = document.querySelector(".profile__edit-button");
 const buttonsClosePopup = document.querySelectorAll(".popup__close-button");
 
+
 const Popups = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".edit-popup");
 const addPopup = document.querySelector(".add-popup");
@@ -47,6 +48,9 @@ const initialCards = [
   }
 ];
 
+nameInput.value = 'Имя';
+jobInput.value = 'О себе';
+
 const renderCards = () => {
   const items = initialCards.map(element => getItem(element));
   cards.prepend(...items);
@@ -72,19 +76,28 @@ const getItem = (data) => {
 
 renderCards();
 
+
+
 const openPopup = (closedPopup) => {
   closedPopup.classList.add("popup_is-opened");
+  document.addEventListener('keydown', escHandler);  
 };
 
 const closePopup = (openedPopup) => {
   openedPopup.classList.remove("popup_is-opened");
+  document.removeEventListener('keydown', escHandler);   
 };
+
+const escHandler = (evt) => {
+    if (evt.key === 'Escape')  {
+    const openedPopup = document.querySelector(".popup_is-opened");     
+    closePopup(openedPopup);
+  }};
 
 const editFormSubmit = (evt) => {
   evt.preventDefault();
   profileTittle.textContent = nameInput.value;
-  profileSubtittle.textContent = jobInput.value;
-
+  profileSubtittle.textContent = jobInput.value;  
   closePopup(editPopup);
 };
 
@@ -96,9 +109,16 @@ const addFormSubmit = (evt) => {
   });
 
   cards.prepend(item);
-
+  
   closePopup(addPopup);
+  
 };
+
+const onClickPopupBackground = (evt) => {
+  const openedPopup = evt.target.closest(".popup");
+  if (evt.target === evt.currentTarget) {  
+  closePopup(openedPopup);
+}};
 
 buttonsClosePopup.forEach((buttonClose) =>
   buttonClose.addEventListener(`click`, (evt) => {
@@ -122,21 +142,7 @@ buttonOpenAddPopup.addEventListener("click", () => {
 editForm.addEventListener('submit', editFormSubmit);
 addForm.addEventListener('submit', addFormSubmit);
 
-
-
-const onClickPopupBackground = (evt) => {
-  const openedPopup = evt.target.closest(".popup");
-  if (evt.target === evt.currentTarget) {  
-  closePopup(openedPopup);
-}};
-
-const escHandler = (evt) => {
-  const openedPopup = document.querySelector('.popup_is-opened'); 
-  if (evt.key === 'Escape' && openedPopup !== null) {     
-    closePopup(openedPopup);
-  }}
-;
 Popups.forEach((popup) => {popup.addEventListener('click', onClickPopupBackground)})
-document.addEventListener('keydown', escHandler)
+
 
 
