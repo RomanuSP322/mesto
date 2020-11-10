@@ -13,7 +13,7 @@ const buttonOpenAddPopup = document.querySelector(".profile__add-button");
 const buttonOpenEditPopup = document.querySelector(".profile__edit-button");
 const buttonsClosePopup = document.querySelectorAll(".popup__close-button");
 
-const Popups = Array.from(document.querySelectorAll(".popup"));
+const popups = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".edit-popup");
 const addPopup = document.querySelector(".add-popup");
 export const imagePopup = document.querySelector(".image-popup");
@@ -128,7 +128,7 @@ buttonOpenAddPopup.addEventListener("click", () => {
 editForm.addEventListener('submit', editFormSubmit);
 addForm.addEventListener('submit', addFormSubmit);
 
-Popups.forEach((popup) => {popup.addEventListener('click', onClickPopupBackground)})
+popups.forEach((popup) => {popup.addEventListener('click', onClickPopupBackground)})
 
 const editValidator = new FormValidator(validatorConfig, editForm);
 editValidator.enableValidation();
