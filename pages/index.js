@@ -1,5 +1,7 @@
-import {FormValidator} from '../components/FormValidator.js';
-import {Card} from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Card from '../components/Card.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
 
 const validatorConfig = {
   formSelector: '.popup__form',
@@ -58,30 +60,22 @@ const initialCards = [
   }
 ];
 
-const renderCards = () => {
-  initialCards.forEach((element) => { 
-    const card = new Card(element.name, element.link, cardTemplate);
-    cards.prepend(card.getCard())
-  });
-};
+const popupWithImage = new PopupWithImage(imagePopup);
 
-renderCards();
+const cardsList = new Section({
+  items: initialCards,
+  renderer : ((item) => {
+    const card = new Card({handleCardClick: ()=> popupWithImage.open(item.link, item.name)}
+      ,item.name, item.link, cardTemplate);
+    const cardElement = card.getCard();
+    cardsList.addItem(cardElement);
+    })
+  },
+cards
+);
 
-export const openPopup = (closedPopup) => {
-  closedPopup.classList.add("popup_is-opened");
-  document.addEventListener('keydown', escHandler);  
-};
+cardsList.renderItems(); 
 
-const closePopup = (openedPopup) => {
-  openedPopup.classList.remove("popup_is-opened");
-  document.removeEventListener('keydown', escHandler); 
-};
-
-const escHandler = (evt) => {
-    if (evt.key === 'Escape')  {
-    const openedPopup = document.querySelector(".popup_is-opened");     
-    closePopup(openedPopup);
-  }};
 
 const editFormSubmit = (evt) => {
   evt.preventDefault();
@@ -100,17 +94,6 @@ const addFormSubmit = (evt) => {
   
 };
 
-const onClickPopupBackground = (evt) => {
-  const openedPopup = evt.target.closest(".popup");
-  if (evt.target === evt.currentTarget) {  
-    closePopup(openedPopup);
-}};
-
-buttonsClosePopup.forEach((buttonClose) =>
-  buttonClose.addEventListener(`click`, (evt) => {
-    const openedPopup = evt.target.closest(".popup");
-    closePopup(openedPopup)
-  }));
 
 
 buttonOpenEditPopup.addEventListener("click", () => {
@@ -128,7 +111,7 @@ buttonOpenAddPopup.addEventListener("click", () => {
 editForm.addEventListener('submit', editFormSubmit);
 addForm.addEventListener('submit', addFormSubmit);
 
-popups.forEach((popup) => {popup.addEventListener('click', onClickPopupBackground)})
+
 
 const editValidator = new FormValidator(validatorConfig, editForm);
 editValidator.enableValidation();
