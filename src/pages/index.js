@@ -34,6 +34,8 @@ const profileInfo = new UserInfo({
 
 const popupWithImage = new PopupWithImage(imagePopup);
 
+
+
 const cardsList = new Section(
   {
     items: initialCards,
@@ -45,7 +47,7 @@ const cardsList = new Section(
         cardTemplate
       );
       const cardElement = card.getCard();
-      cardsList.addItem(cardElement);
+      cardsList.addItem(cardElement);      
     },
   },
   cards
@@ -68,9 +70,9 @@ const placePopup = new PopupWithForm(addPopup, {
       item.link,
       cardTemplate
     );
-    const cardElement = card.getCard();
+    const cardElement = card.getCard();    
     cards.prepend(cardElement);
-    placePopup.close();
+    placePopup.close();    
   },
 });
 
@@ -79,13 +81,13 @@ buttonOpenEditPopup.addEventListener("click", () => {
   nameInput.value = info.name;
   jobInput.value = info.job;
   editValidator.clearErrors();
+  profilePopup.setEventListeners();
   profilePopup.open();
 });
 
 buttonOpenAddPopup.addEventListener("click", () => {
-  titleInput.value = "";
-  urlInput.value = "";
   addValidator.clearErrors();
+  placePopup.setEventListeners();  
   placePopup.open();
 });
 
