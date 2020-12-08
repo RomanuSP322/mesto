@@ -13,9 +13,8 @@ import {
   profileSubtittle,
   nameInput,
   jobInput,
-  titleInput,
-  urlInput,
-  initialCards,
+  apiConfig,  
+  avatar
 } from "../utils/constants.js";
 
 import FormValidator from "../components/FormValidator.js";
@@ -24,21 +23,33 @@ import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import "./index.css";
+//import "./index.css";
+import Api from "../components/Api.js"
 
 
 const profileInfo = new UserInfo({
   name: profileTittle,
-  job: profileSubtittle,
+  about: profileSubtittle,
+  avatar: avatar 
 });
+
 
 const popupWithImage = new PopupWithImage(imagePopup);
 
+const api = new Api(apiConfig);
 
+api.getUserInfo()
+  .then((res) => {
+    profileInfo.setUserInfo(res);
+  })
+
+  api.getCards()
+  .then((res) => {
+    cardsList.renderItems(res);
+  })
 
 const cardsList = new Section(
-  {
-    items: initialCards,
+  {    
     renderer: (item) => {
       const card = new Card(
         { handleCardClick: () => popupWithImage.open(item.link, item.name) },
@@ -53,33 +64,48 @@ const cardsList = new Section(
   cards
 );
 
-cardsList.renderItems();
+
 
 const profilePopup = new PopupWithForm(editPopup, {
   handleFormSubmit: (item) => {
-    profileInfo.setUserInfo(item);
-    profilePopup.close();
-  },
+    api.editProfile(item)
+    .then((res) => {
+      profileInfo.setUserInfo(res)
+      profilePopup.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }
 });
 
 const placePopup = new PopupWithForm(addPopup, {
   handleFormSubmit: (item) => {
-    const card = new Card(
-      { handleCardClick: () => popupWithImage.open(item.link, item.title) },
-      item.title,
-      item.link,
-      cardTemplate
-    );
-    const cardElement = card.getCard();    
-    cards.prepend(cardElement);
-    placePopup.close();    
+    api.editCard(item)
+    .then((res) => {
+      const card = new Card(
+        { handleCardClick: () => popupWithImage.open(res.link, res.name) },
+        res.name,
+        res.link,
+        cardTemplate
+      );
+      const cardElement = card.getCard();    
+      cards.prepend(cardElement);
+      placePopup.close();    
+    })
+    
+
   },
 });
+
+
+
+
 
 buttonOpenEditPopup.addEventListener("click", () => {
   const info = profileInfo.getUserInfo();
   nameInput.value = info.name;
-  jobInput.value = info.job;
+  jobInput.value = info.about;
   editValidator.clearErrors();
   profilePopup.setEventListeners();
   profilePopup.open();
