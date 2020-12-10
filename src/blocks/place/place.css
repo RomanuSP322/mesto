@@ -1,6 +1,7 @@
 @import url(./__content/place__content.css);
 @import url(./__image/place__image.css);
 @import url(./__delete-button/place__delete-button.css);
+@import url(./__delete-button/_active/place__delete-button_active.css);
 @import url(./__title/place__title.css);
 @import url(./__like-button/place-like-button.css);
 @import url(./__like-button/_active/place__like-button_active.css);

@@ -67,6 +67,28 @@
       </div>
     </section>
 
+    <section class="popup avatar-popup">
+      <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <h2 class="popup__tittle">Обновить аватар</h2>
+        <form name="popup-avatar-form" class="popup__form popup__form__type_avatar popup__form-container">          
+          <input type="url" id="avatar-link" class="popup__form-item popup__form-item_type_avatar"
+            name="avatar" placeholder="Ссылка на картинку" required />
+          <span id="avatar-link-error" class="popup__error"></span>
+          <button type="submit" class="popup__save-button">Сохранить</button>
+        </form>
+      </div>
+    </section>
+
+    
+    <section class="popup delete-popup">
+      <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <h2 class="popup__tittle delete-popup__title">Вы уверены?</h2>        
+        <button type="submit" class="popup__save-button">Да</button>
+      </div>
+    </section>
+
     <section class="popup image-popup">
       <div class="popup__image-container">
         <button type="button" class="popup__close-button"></button>
@@ -84,7 +106,7 @@
         <h2 class="place__title"></h2>
         <div class="place__like-wrapper">
           <button type="button" class="place__like-button"></button>
-          <div class="place__like-counter">0</div>
+          <span class="place__like-counter">0</span>
         </div>
       </div>
     </div>

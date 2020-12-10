@@ -8,15 +8,19 @@ const validatorConfig = {
 
 const buttonOpenAddPopup = document.querySelector(".profile__add-button");
 const buttonOpenEditPopup = document.querySelector(".profile__edit-button");
-const buttonEditAvatar = document.querySelector(".profile__avatar-button");
+const buttonOpenAvatar = document.querySelector(".profile__avatar-button");
 const avatar = document.querySelector(".profile__avatar");
+
 
 const editPopup = document.querySelector(".edit-popup");
 const addPopup = document.querySelector(".add-popup");
 const imagePopup = document.querySelector(".image-popup");
+const avatarPopup = document.querySelector(".avatar-popup");
+const submitDeletePopup = document.querySelector(".delete-popup");
 
 const editForm = document.querySelector(".popup__form__type_edit");
 const addForm = document.querySelector(".popup__form__type_add");
+const avatarForm = document.querySelector(".popup__form__type_avatar");
 
 const cards = document.querySelector(".places");
 const cardTemplate = ".card-template";
@@ -55,5 +59,9 @@ export {
   titleInput,
   urlInput,
   avatar,
-  apiConfig
+  apiConfig,
+  avatarPopup,
+  buttonOpenAvatar,
+  avatarForm,
+  submitDeletePopup  
 };
