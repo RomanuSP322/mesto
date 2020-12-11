@@ -56,7 +56,9 @@ const cardsList = new Section(
 
 cardsList.renderItems(res);
 })
-
+.catch((err) => {
+  console.log(err);
+})
 
 function createCard(item) {
   const card = new Card({
