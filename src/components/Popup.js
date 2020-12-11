@@ -34,11 +34,7 @@ export default class Popup {
       this._onClickPopupBackground);
   }
 
-  _removeEventListeners() {
-    this._closeButton.removeEventListener("click", this.close);
-    this._popup.removeEventListener(
-      "click",
-      this._onClickPopupBackground);
+  _removeEventListeners() {  
     document.removeEventListener("keydown", this._handleEscClose);
   }
 }

@@ -39,34 +39,36 @@ const profileInfo = new UserInfo({
 });
 
 const popupDeleteCard = new PopupWithSubmit(submitDeletePopup);
+popupDeleteCard.setEventListeners();
 
 const popupWithImage = new PopupWithImage(imagePopup);
 
 const api = new Api(apiConfig);
 
+Promise.all([api.getUserInfo(),api.getCards()])
+.then(([userInfo, res]) => {
+  profileInfo.setUserInfo(userInfo);
 
-api.getUserInfo()
-  .then((res) => {
-    profileInfo.setUserInfo(res);
-  })
-  
+const cardsList = new Section(
+  { renderer: (item) => createCard(item) },
+  cards
+);
 
-api.getCards()
-  .then((res) => {
-    cardsList.renderItems(res);
-  })
+cardsList.renderItems(res);
+})
+
 
 function createCard(item) {
   const card = new Card({
     handleCardClick: () => popupWithImage.open(item.link, item.name),
     handleDeleteCard: () => {
-      popupDeleteCard.open();
-      popupDeleteCard.setEventListeners();
+      popupDeleteCard.open();      
       popupDeleteCard.setSubmitAction(() => {
         api.deleteCard(card._id)
           .then(() => {
-            card.delete()
-          })
+            card.delete();
+            popupDeleteCard.close();
+          })          
           .catch((err) => {
             console.log(err);
           })
@@ -121,6 +123,7 @@ const avatarEditPopup = new PopupWithForm(avatarPopup, {
       .finally(() => avatarEditPopup.renderLoading(false))
   }
 });
+avatarEditPopup.setEventListeners();
 
 const profilePopup = new PopupWithForm(editPopup, {
   handleFormSubmit: (item) => {
@@ -136,6 +139,7 @@ const profilePopup = new PopupWithForm(editPopup, {
       .finally(() => profilePopup.renderLoading(false))
   }
 });
+profilePopup.setEventListeners();
 
 const placePopup = new PopupWithForm(addPopup, {
   handleFormSubmit: (item) => {
@@ -151,11 +155,11 @@ const placePopup = new PopupWithForm(addPopup, {
       .finally(() => placePopup.renderLoading(false))
   },
 });
+placePopup.setEventListeners();
 
 
 buttonOpenAvatar.addEventListener("click", () => {
-  avatarValidator.clearErrors();
-  avatarEditPopup.setEventListeners();
+  avatarValidator.clearErrors();  
   avatarEditPopup.open();
 });
 
@@ -163,14 +167,12 @@ buttonOpenEditPopup.addEventListener("click", () => {
   const info = profileInfo.getUserInfo();
   nameInput.value = info.name;
   jobInput.value = info.about;
-  editValidator.clearErrors();
-  profilePopup.setEventListeners();
+  editValidator.clearErrors();  
   profilePopup.open();
 });
 
 buttonOpenAddPopup.addEventListener("click", () => {
-  addValidator.clearErrors();
-  placePopup.setEventListeners();
+  addValidator.clearErrors();  
   placePopup.open();
 });
 
